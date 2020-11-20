@@ -1,0 +1,29 @@
+{
+  "name": "pw4_sistema_odontologico",
+  "version": "1.0.0",
+  "description": "Trabalho do Programação Web 4: Sistema Odontológico.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juniorbocelli/PW4_Sistema_Odontologico.git"
+  },
+  "keywords": [
+    "pw4",
+    "Sistema Odontolágico"
+  ],
+  "author": "José Paulo Bocelli Júnior",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/juniorbocelli/PW4_Sistema_Odontologico/issues"
+  },
+  "homepage": "https://github.com/juniorbocelli/PW4_Sistema_Odontologico#readme",
+  "dependencies": {
+    "consign": "^0.1.6",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "express-validator": "^6.6.1"
+  }
+}
