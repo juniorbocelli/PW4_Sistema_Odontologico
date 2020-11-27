@@ -1,9 +1,13 @@
 import { Router } from 'express';
+import { body, validationResult } from 'express-validator';
+
 import ClientController from './app/controllers/ClientController';
 import ConsultationController from './app/controllers/ConsultationController';
 import ProcedureController from './app/controllers/ProcedureController';
 import ToothController from './app/controllers/ToothController';
 import UserController from './app/controllers/UserController';
+
+import UserValidator from './app/models/validators/UserValidator';
 
 const routes = Router();
 
@@ -33,7 +37,7 @@ routes.delete('/teeth/:id', ToothController.delete);
 
 routes.get('/users', UserController.index);
 routes.get('/users/:id', UserController.show);
-routes.post('/users', UserController.store);
+routes.post('/users', UserValidator.getValidators, UserController.store);
 routes.put('/users/:id', UserController.update);
 routes.delete('/users/:id', UserController.delete);
 

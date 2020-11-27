@@ -5,7 +5,7 @@ class Procedure extends Model {
     super.init(
       {
         nome: Sequelize.STRING(100),
-        price: Sequelize.FLOAT(10, 2),
+        price: Sequelize.DOUBLE(10, 2),
         is_dental: Sequelize.BOOLEAN
       },
       {

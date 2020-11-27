@@ -1,4 +1,4 @@
-import Procedure from "../models/Procedure";
+import Procedure from "../models/entities/Procedure";
 
 class ProcedureController {
   async store(req, res) {

@@ -1,4 +1,4 @@
-import Tooth from "../models/Tooth";
+import Tooth from "../models/entities/Tooth";
 
 class ToothController {
   async store(req, res) {

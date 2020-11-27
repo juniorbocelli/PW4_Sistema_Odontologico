@@ -1,4 +1,4 @@
-import Consultation from "../models/Consultation";
+import Consultation from "../models/entities/Consultation";
 
 class ConsultationController {
   async store(req, res) {

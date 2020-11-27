@@ -1,8 +1,12 @@
 import Sequelize from 'sequelize';
 import databaseConfig from '../config/database';
-import User from '../app/models/User';
-import Client from '../app/models/Client';
-const models = [User, Client];
+import Client from '../app/models/entities/Client';
+import Consultation from '../app/models/entities//Consultation';
+import Procedure from '../app/models/entities/Procedure';
+import Tooth from '../app/models/entities/Tooth';
+import User from '../app/models/entities/User';
+
+const models = [Client, Consultation, Procedure, Tooth, User];
 
 class Database {
   constructor(){

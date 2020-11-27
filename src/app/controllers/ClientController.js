@@ -1,4 +1,4 @@
-import Client from "../models/Client";
+import Client from "../models/entities/Client";
 
 class ClientController {
   async store(req, res) {

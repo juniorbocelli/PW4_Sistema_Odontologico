@@ -5,7 +5,7 @@ module.exports = {
     type: Sequelize.INTEGER,
     references: { model: 'client', key: 'id'},
     onUpdate: 'CASCADE',
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
     allowNull: false
   }),
  

@@ -13,7 +13,7 @@ module.exports = {
       allowNull:false
     },
     value: {
-      type: Sequelize.FLOAT(10, 2),
+      type: Sequelize.DOUBLE(10, 2),
       allowNull: true
     },
     is_paid: {

@@ -5,7 +5,7 @@ class Consultation extends Model {
     super.init(
       {
         time: Sequelize.DATE,
-        value: Sequelize.FLOAT(10, 2),
+        value: Sequelize.DOUBLE(10, 2),
         is_paid: Sequelize.BOOLEAN,
         is_confirmed: Sequelize.BOOLEAN
       },
