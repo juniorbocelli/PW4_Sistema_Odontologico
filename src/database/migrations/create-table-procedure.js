@@ -12,6 +12,11 @@ module.exports = {
         type: Sequelize.STRING(100),
         allowNull:false
       },
+      is_dental:{
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        default: false
+      },
       price: {
         type: Sequelize.FLOAT(10, 2),
         allowNull: false

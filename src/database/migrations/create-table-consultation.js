@@ -12,11 +12,16 @@ module.exports = {
       type: Sequelize.DATE,
       allowNull:false
     },
-    price: {
+    value: {
       type: Sequelize.FLOAT(10, 2),
       allowNull: true
     },
     is_paid: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+      default: false
+    },
+    is_confirmed: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
       default: false
