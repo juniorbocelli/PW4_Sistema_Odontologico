@@ -1,21 +1,36 @@
-import { body, validationResult } from 'express-validator';
+import { body } from 'express-validator';
 class UserValidator {
     constructor() {
-        this._v = [];
-        this.validators = this.addNameValidator();
+        this.validator = [];
+        this.addNameValidator();
+        this.addMailValidator();
+        this.addPasswordValidator();
     }
 
-    getValidators() {
-        return this.validators;
+    get validators() {
+        return this.validator;
     }
 
     addNameValidator() {
-        return this._v.push( body('name').isLength({ min: 5 }));
+        this.validator.push(body('name')
+        .trim()
+        .isLength({ min: 5 }).withMessage('O Nome deve ter no mínimo 5 caracteres.')
+        .isLength({ max: 100 }).withMessage('O Nome deve ter no máximo 100 caracteres.'));
     }
 
-    addNameMail() {
-        return this._v.push( body('mail').isEmail());
+    addMailValidator() {
+        this.validator.push(body('mail')
+        .trim()
+        .not().isEmpty().withMessage('O E-mail é obrigatório.')
+        .isLength({ max: 100 }).withMessage('O E-mail deve ter no máximo 100 caracteres.')
+        .isEmail().withMessage('O E-mail informado deve ser válido.'));
+    }
+
+    addPasswordValidator() {
+        this.validator.push(body('password')
+        .trim()
+        .isLength({ min: 6 }).withMessage('A Senha deve ter no mínimo 5 caracteres.'));
     }
 }
 
-export default new UserValidator;
+export default new UserValidator();
