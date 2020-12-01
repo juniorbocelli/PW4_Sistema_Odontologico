@@ -7,6 +7,7 @@ import ToothController from './app/controllers/ToothController';
 import UserController from './app/controllers/UserController';
 
 import ClientValidator from './app/models/validators/ClientValidator';
+import ProcedureValidator from './app/models/validators/ProcedureValidator';
 import ToothValidator from './app/models/validators/ToothValidator'
 import UserValidator from './app/models/validators/UserValidator';
 import ErrorHandler from './app/models/validators/ErrorHandler';
@@ -27,8 +28,8 @@ routes.delete('/consultations/:id', ConsultationController.delete);
 
 routes.get('/procedures', ProcedureController.index);
 routes.get('/procedures/:id', ProcedureController.show);
-routes.post('/procedures', ProcedureController.store);
-routes.put('/procedures/:id', ProcedureController.update);
+routes.post('/procedures', ProcedureValidator.validators, ErrorHandler.handler, ProcedureController.store);
+routes.put('/procedures/:id', ProcedureValidator.validators, ErrorHandler.handler, ProcedureController.update);
 routes.delete('/procedures/:id', ProcedureController.delete);
 
 routes.get('/teeth', ToothController.index);
