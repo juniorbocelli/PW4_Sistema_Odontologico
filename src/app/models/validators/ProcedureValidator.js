@@ -1,9 +1,11 @@
 import { body } from 'express-validator';
+
 class ProcedureValidator {
     constructor() {
         this.validator = [];
         this.addNameValidator();
         this.addPriceValidator();
+        this.addIsDentalValidator();
     }
 
     get validators() {
@@ -36,6 +38,12 @@ class ProcedureValidator {
         digits_after_decimal: [2], 
         allow_space_after_digits: false}).withMessage('O Preço é inválido.')
         .toFloat());
+    }
+
+    addIsDentalValidator() {
+        this.validator.push(body('is_dental')
+        .not().isEmpty().withMessage('O campo Dental é inválido.')
+        .toBoolean());
     }
 }
 
