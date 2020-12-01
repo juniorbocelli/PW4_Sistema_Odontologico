@@ -35,6 +35,10 @@ Com exceção de nodemon, sucrase e yarn todas as instalações podem ser feitas
 
     npm install express express-validator cors ejs sequelize sequelize-cli mariadb --save # A opção --save
 
+Depois, para os módulos globais:
+
+    npm install nodemon yarn sucrase --global -- save
+
 A opção --save no comando acima não é obrigatória, mas ela vai sobrescrever o arquivo *package.json*, caso alguma versão instalada seja diferente que as indicadas no projeto.
 
 Módulos do Node.js estão em constante evolução e pode ser que no futuro, o projeto atual não funcione em versões de módulos mais novas.
