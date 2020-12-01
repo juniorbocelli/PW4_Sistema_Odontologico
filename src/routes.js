@@ -6,6 +6,8 @@ import ProcedureController from './app/controllers/ProcedureController';
 import ToothController from './app/controllers/ToothController';
 import UserController from './app/controllers/UserController';
 
+import ClientValidator from './app/models/validators/ClientValidator';
+import ToothValidator from './app/models/validators/ToothValidator'
 import UserValidator from './app/models/validators/UserValidator';
 import ErrorHandler from './app/models/validators/ErrorHandler';
 
@@ -13,8 +15,8 @@ const routes = Router();
 
 routes.get('/clients', ClientController.index);
 routes.get('/clients/:id', ClientController.show);
-routes.post('/clients', ClientController.store);
-routes.put('/clients/:id', ClientController.update);
+routes.post('/clients', ClientValidator.validators, ErrorHandler.handler, ClientController.store);
+routes.put('/clients/:id', ClientValidator.validators, ErrorHandler.handler, ClientController.update);
 routes.delete('/clients/:id', ClientController.delete);
 
 routes.get('/consultations', ConsultationController.index);
@@ -31,14 +33,14 @@ routes.delete('/procedures/:id', ProcedureController.delete);
 
 routes.get('/teeth', ToothController.index);
 routes.get('/teeth/:id', ToothController.show);
-routes.post('/teeth', ToothController.store);
-routes.put('/teeth/:id', ToothController.update);
+routes.post('/teeth', ToothValidator.validators, ErrorHandler.handler, ToothController.store);
+routes.put('/teeth/:id', ToothValidator.validators, ErrorHandler.handler, ToothController.update);
 routes.delete('/teeth/:id', ToothController.delete);
 
 routes.get('/users', UserController.index);
 routes.get('/users/:id', UserController.show);
 routes.post('/users', UserValidator.validators, ErrorHandler.handler, UserController.store);
-routes.put('/users/:id', UserController.update);
+routes.put('/users/:id', UserValidator.validators, ErrorHandler.handler, UserController.update);
 routes.delete('/users/:id', UserController.delete);
 
 export default routes;
