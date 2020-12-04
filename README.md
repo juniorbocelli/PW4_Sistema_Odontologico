@@ -1,10 +1,38 @@
+
 # PW4_Sistema_Odontologico
 
-Última atualização deste documento 01/12/2020.
+Este documentos está em constante desenvolvimento. Consulte também a seção Wiki do GitHub para ter acesso a mais documentação do projeto.
+
+(Última atualização: 04/12/2020)
 
 ## Introdução
 
 Trabalho escolar da matéria **Programação Web 4**, do segundo semestre de 2020, ministrada pelo professor **Danilo Augusto Moschetto**, do aluno **José Paulo Bocelli Júnior**.
+
+## Banco de Dados
+
+Neste projeto utilizamos o Sequelize, um ORM que vai facilitar muito a nossa vida com as operações CRUD no banco de dados. O Sequelize trabalha, de acordo com a sua [documentação oficial](https://sequelize.org/master/index.html), pode trabalhar com uma porção de bancos de dados diferente; para o nosso projeto escolhemos o MariaDB.
+
+Portanto, para poder executar o projeto na sua máquina, será necessário ter o banco de dados MariaDB instalado e funcionando. Caso ainda não tenha o banco de dados MariaDB no teu computador, sugerimos que faça a instalação do [XAMMP](https://www.apachefriends.org/pt_br/index.html).
+
+### Configurando o Banco de Dados
+
+As configurações de banco de dados do projeto estão no arquivo *PW4_Sistema_Odontologico\src\config\database.js* e são as seguintes:
+
+    module.exports  = {
+		dialect: 'mariadb',
+		host: '127.0.0.1',
+		username: 'root',
+		password: '',
+		database: 'pw4_sistema_odontologico',
+		define: {
+			timestamps: false,
+			underscored: true,
+			underscoredAll: true,
+		},
+	}
+
+Caso teu banco de dados tenha uma configuração diferente, basta modificar os dados no arquivo. Repare que será necessário criar um banco para o projeto, chamado  ***pw4_sistema_odontologico***.
 
 ## Node.js
 
@@ -50,3 +78,39 @@ Para instalar versões específicas dos módulos, use:
 Por exemplo:
 
     npm install express@4.17.1
+
+### Inicializando o Sequelize
+
+O processo de inicialização e configuração de um projeto usando o ORM Sequelize estão bem documentados no site oficial e não será discutida aqui. Aqui vamos nos limitar a dizer que o arquivo de configuração do Sequelize estão no arquivo *PW4_Sistema_Odontologico\.sequelizerc* e os modelos para a criação das tabelas na pasta *PW4_Sistema_Odontologico\src\database\migrations*.
+
+Para a inicialização do banco de dados do projeto e a criação das tabelas, basta executar o comando:
+
+    yarn sequelize db:migrate
+
+Se tudo correr bem, você poderá observar as tabelas criadas no banco de dados indicado.
+
+## Executando o projeto
+
+Para executar o projeto, basta executar o código:
+
+    nodemon src/server.js
+
+O servidor estará funcionando em http://localhost:5000/.
+
+Para testá-lo (já que ainda não temos a parte do frontend pronta) nós recomendamos o software [Postman](https://www.postman.com/downloads/), para mandar requisições e observar as respostas.
+
+### As Rotas
+
+Neste projeto adotamos a seguinte nomenclatura para as rotas do sistema:
+
+ - **index**:  mostra lista de uma entidade do banco;
+ - **show**: mostra os dados de uma entidade do banco;
+ - **store**: salva os dados de uma nova entidade no banco;
+ - **update**: atualiza os dados de uma entidade no banco;
+ - **delete**: deleta uma entidade do banco.
+
+Essas são as rotas essenciais, mas existem outras rotas especiais e com outros nomes no sistema, por exemplo a de login. Para conferir todas as rotas, acesse o arquivo *PW4_Sistema_Odontologico\src\routes.js*.
+
+### As Validações
+
+Para manter a segurança do sistema e a consistência dos dados persistidos no banco de dados, nosso sistema utiliza um módulo chamado [Express Validator](https://express-validator.github.io/docs/). As validações disponíveis pelo módulo estão disponíveis [aqui](https://github.com/validatorjs/validator.js). Para saber quais foram as validações utilizadas no projeto, verificar as classes na pasta *PW4_Sistema_Odontologico\src\app\models\validators*.
