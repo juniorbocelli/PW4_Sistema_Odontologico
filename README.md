@@ -85,3 +85,29 @@ Para a inicialização do banco de dados do projeto e a criação das tabelas, b
     yarn sequelize db:migrate
 
 Se tudo correr bem, você poderá observar as tabelas criadas no banco de dados indicado.
+
+## Executando o projeto
+
+Para executar o projeto, basta executar o código:
+
+    nodemon src/server.js
+
+O servidor estará funcionando em http://localhost:5000/.
+
+Para testá-lo (já que ainda não temos a parte do frontend pronta) nós recomendamos o software [Postman](https://www.postman.com/downloads/), para mandar requisições e observar as respostas.
+
+### As Rotas
+
+Neste projeto adotamos a seguinte nomenclatura para as rotas do sistema:
+
+ - **index**:  mostra lista de uma entidade do banco;
+ - **show**: mostra os dados de uma entidade do banco;
+ - **store**: salva os dados de uma nova entidade no banco;
+ - **update**: atualiza os dados de uma entidade no banco;
+ - **delete**: deleta uma entidade do banco.
+
+Essas são as rotas essenciais, mas existem outras rotas especiais e com outros nomes no sistema, por exemplo a de login. Para conferir todas as rotas, acesse o arquivo *PW4_Sistema_Odontologico\src\routes.js*.
+
+### As Validações
+
+Para manter a segurança do sistema e a consistência dos dados persistidos no banco de dados, nosso sistema utiliza um módulo chamado [Express Validator](https://express-validator.github.io/docs/). As validações disponíveis pelo módulo estão disponíveis aqui. Para saber quais foram as validações utilizadas no projeto, verificar as classes na pasta *PW4_Sistema_Odontologico\src\app\models\validators*.
