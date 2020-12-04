@@ -113,8 +113,4 @@ Essas são as rotas essenciais, mas existem outras rotas especiais e com outros 
 
 ### As Validações
 
-<<<<<<< HEAD
 Para manter a segurança do sistema e a consistência dos dados persistidos no banco de dados, nosso sistema utiliza um módulo chamado [Express Validator](https://express-validator.github.io/docs/). As validações disponíveis pelo módulo estão disponíveis [aqui](https://github.com/validatorjs/validator.js). Para saber quais foram as validações utilizadas no projeto, verificar as classes na pasta *PW4_Sistema_Odontologico\src\app\models\validators*.
-=======
-Para manter a segurança do sistema e a consistência dos dados persistidos no banco de dados, nosso sistema utiliza um módulo chamado [Express Validator](https://express-validator.github.io/docs/). As validações disponíveis pelo módulo estão disponíveis [aqui](https://github.com/validatorjs/validator.js). Para saber quais foram as validações utilizadas no projeto, verificar as classes na pasta *PW4_Sistema_Odontologico\src\app\models\validators*.
->>>>>>> 5ec4ecb5a84920240669eb52791763e6744d00ba
