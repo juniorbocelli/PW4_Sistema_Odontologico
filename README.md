@@ -1,6 +1,8 @@
 # PW4_Sistema_Odontologico
 
-Última atualização deste documento 01/12/2020.
+Este documentos está em constante desenvolvimento. Consulte também a seção Wiki do GitHub para ter acesso a mais documentação do projeto.
+
+(Última atualização: 04/12/2020)
 
 ## Introdução
 
@@ -110,4 +112,4 @@ Essas são as rotas essenciais, mas existem outras rotas especiais e com outros 
 
 ### As Validações
 
-Para manter a segurança do sistema e a consistência dos dados persistidos no banco de dados, nosso sistema utiliza um módulo chamado [Express Validator](https://express-validator.github.io/docs/). As validações disponíveis pelo módulo estão disponíveis aqui. Para saber quais foram as validações utilizadas no projeto, verificar as classes na pasta *PW4_Sistema_Odontologico\src\app\models\validators*.
+Para manter a segurança do sistema e a consistência dos dados persistidos no banco de dados, nosso sistema utiliza um módulo chamado [Express Validator](https://express-validator.github.io/docs/). As validações disponíveis pelo módulo estão disponíveis [aqui](https://github.com/validatorjs/validator.js). Para saber quais foram as validações utilizadas no projeto, verificar as classes na pasta *PW4_Sistema_Odontologico\src\app\models\validators*.
