@@ -11,13 +11,13 @@ class App {
         this.routes();
     }
 
-    //Onde será configurado nossas rotas
-    routes(){
+    // Onde será configurado nossas rotas
+    routes() {
         this.server.use(routes)
     }
 
-    //Se ocorrerá algum tipo de middleware na aplicação
-    middlewares(){
+    // Se ocorrerá algum tipo de middleware na aplicação
+    middlewares() {
         this.server.use(cors())
         this.server.use(express.json())
     }

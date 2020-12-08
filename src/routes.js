@@ -19,6 +19,7 @@ routes.get('/clients/:id', ClientController.show);
 routes.post('/clients', ClientValidator.validators, ErrorHandler.handler, ClientController.store);
 routes.put('/clients/:id', ClientValidator.validators, ErrorHandler.handler, ClientController.update);
 routes.delete('/clients/:id', ClientController.delete);
+routes.get('/email', ClientController.sendConfirmationEmail);
 
 routes.get('/consultations', ConsultationController.index);
 routes.get('/consultations/:id', ConsultationController.show);

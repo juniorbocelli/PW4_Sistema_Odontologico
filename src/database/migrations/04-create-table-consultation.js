@@ -23,9 +23,13 @@ module.exports = {
     },
     is_confirmed: {
       type: Sequelize.BOOLEAN,
-      allowNull: false,
-      default: false
+      allowNull: true,
+      default: null
     },
+    token: {
+      type: Sequelize.STRING,
+      allowNull: false
+    }
   }),
 
   down: (queryInterface) => queryInterface.dropTable("consultation")
