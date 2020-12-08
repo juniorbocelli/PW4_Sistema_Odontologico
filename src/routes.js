@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import passport from 'passport';
 
 import ClientController from './app/controllers/ClientController';
 import ConsultationController from './app/controllers/ConsultationController';
@@ -14,11 +15,29 @@ import ErrorHandler from './app/models/validators/ErrorHandler';
 
 const routes = Router();
 
+// Acessa a página de login
+routes.get('/login', (req, res, next) => {
+    if (req.query.fail)
+        return res.json({ message: 'Usuário e/ou senha incorretos!' });
+    else
+        return res.json({ message: null });
+});
+ 
+// API que recebe os dados de login para validar ou não um usuário
+routes.post('/',
+    passport.authenticate('local', { 
+        successRedirect: '/', 
+        failureRedirect: '/login?fail=true' 
+    })
+);
+
 routes.get('/clients', ClientController.index);
 routes.get('/clients/:id', ClientController.show);
 routes.post('/clients', ClientValidator.validators, ErrorHandler.handler, ClientController.store);
 routes.put('/clients/:id', ClientValidator.validators, ErrorHandler.handler, ClientController.update);
 routes.delete('/clients/:id', ClientController.delete);
+
+// Somente para testes!
 routes.get('/email', ClientController.sendConfirmationEmail);
 
 routes.get('/consultations', ConsultationController.index);
