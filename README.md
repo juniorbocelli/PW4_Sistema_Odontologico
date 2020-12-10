@@ -3,7 +3,9 @@
 
 Este documentos está em constante desenvolvimento. Consulte também a seção Wiki do GitHub para ter acesso a mais documentação do projeto.
 
-(Última atualização: 04/12/2020)
+O projeto ainda está em desenvolvimento; não está terminado. Não espere tentar executá-lo em sua máquina e não encontrar bugs e requisitos que ainda não foram implementado.
+
+(Última atualização: 11/12/2020)
 
 ## Introdução
 
@@ -49,7 +51,13 @@ Para o backend do projeto usamos o **Noje.js** na versão **14.15.1**.
  - mariadb v2.5.1;
  - sucrase v3.16.0;
  - nodemon v2.0.6;
- - yarn v1.22.10.
+ - yarn v1.22.10;
+ - bcryptjs v2.4.3;
+ - express-session v1.17.1;
+ - node-cron v2.0.3;
+ - nodemailer 6.4.16;
+ - passport v0.4.1;
+ - passport-local v1.0.0.
 
 ### Inicializar o projeto
 
@@ -61,7 +69,7 @@ Na pasta, onde você pretende inicializar o projeto, executar o comando para clo
 
 Com exceção de nodemon, sucrase e yarn todas as instalações podem ser feitas localmente, porém esses três necessitam de instalação global.
 
-    npm install express express-validator cors ejs sequelize sequelize-cli mariadb --save # A opção --save
+    npm install express express-validator cors ejs sequelize sequelize-cli mariadb bcryptjs express-session node-cron nodemailer passport passport-local --save # A opção --save
 
 Depois, para os módulos globais:
 
