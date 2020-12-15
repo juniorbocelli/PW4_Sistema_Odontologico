@@ -24,7 +24,7 @@ routes.get('/login', (req, res, next) => {
 });
  
 // API que recebe os dados de login para validar ou não um usuário
-routes.post('/',
+routes.post('/login',
     passport.authenticate('local', { 
         successRedirect: '/', 
         failureRedirect: '/login?fail=true' 
@@ -61,7 +61,10 @@ routes.delete('/teeth/:id', ToothController.delete);
 routes.get('/users', UserController.index);
 routes.get('/users/:id', UserController.show);
 routes.post('/users', UserValidator.validators, ErrorHandler.handler, UserController.store);
-routes.put('/users/:id', UserValidator.validators, ErrorHandler.handler, UserController.update);
+routes.put('/users/:id', (req, res, next)=>{
+    if(req.body.password === '') delete req.body.password;
+    next();
+}, UserValidator.validators, ErrorHandler.handler, UserController.update);
 routes.delete('/users/:id', UserController.delete);
 
 export default routes;

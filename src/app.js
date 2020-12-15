@@ -5,7 +5,10 @@ import './database';
 
 import passport from 'passport';
 import session from 'express-session';
-import authConfig from './config/auth';
+import sessionConfig from './config/session';
+
+//require('./auth/auth')(passport)
+import passportConfig from './auth/auth'
 import protectPageMiddleware from './auth/protectPageMiddleware'
 
 //Criamos uma classe para trabalhar com apenas uma instancia do server
@@ -13,6 +16,7 @@ class App {
     constructor(){
         this.server = express();
         this.middlewares();
+        this.configPassport();
         this.routes();
     }
 
@@ -27,7 +31,7 @@ class App {
         this.server.use(express.json());
 
         // Middlewares de autenticação
-        this.server.use(session(authConfig));
+        this.server.use(session(sessionConfig));
         this.server.use(passport.initialize());
         this.server.use(passport.session());
 
@@ -38,6 +42,11 @@ class App {
         this.server.use('/procedures', protectPageMiddleware);
         this.server.use('/teeth', protectPageMiddleware);
         this.server.use('/users', protectPageMiddleware);
+    }
+
+    configPassport() {
+        // Passando a instância do passport para o arquivo de configuração
+        passportConfig(passport);
     }
 }
 

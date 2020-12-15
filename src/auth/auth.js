@@ -1,9 +1,9 @@
 import bcrypt from 'bcryptjs';
-import passport, { Strategy } from 'passport-local';
+import { Strategy  } from 'passport-local';
 
 import User from "../app/models/entities/User";
 
-module.exports = function(){ 
+module.exports = function(passport){ 
  
     async function findUserByMail(mail){
         const user = await User.findOne({
@@ -23,7 +23,7 @@ module.exports = function(){
 
     // Serializa um objeto do tipo User
     passport.serializeUser((user, done) => {
-        done(null, user._id);
+        done(null, user.id);
     });
  
     // Desserizaliza (recupera) um objeto do tipo user
@@ -36,13 +36,11 @@ module.exports = function(){
         }
     });
 
-    passport.use(new Strategy({
-        usernameField: 'mail',
-        passwordField: 'password'
-    },
-        (username, password, done) => {
+    passport.use(new Strategy (
+        
+        async (username, password, done) => {
             try {
-                const user = findUserByMail(username);
+                const user = await findUserByMail(username);
     
                 // Caso em que o usuário não existe
                 if (!user) { return done(null, false) }
