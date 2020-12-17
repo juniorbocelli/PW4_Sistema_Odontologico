@@ -5,10 +5,10 @@ import User from "../app/models/entities/User";
 
 module.exports = function(passport){ 
  
-    async function findUserByMail(mail){
+    async function findUserByUsername(username){
         const user = await User.findOne({
             where: {
-              mail: mail
+                username: username
             }
         });
 
@@ -40,7 +40,7 @@ module.exports = function(passport){
         
         async (username, password, done) => {
             try {
-                const user = await findUserByMail(username);
+                const user = await findUserByUsername(username);
     
                 // Caso em que o usuário não existe
                 if (!user) { return done(null, false) }

@@ -7,7 +7,6 @@ import passport from 'passport';
 import session from 'express-session';
 import sessionConfig from './config/session';
 
-//require('./auth/auth')(passport)
 import passportConfig from './auth/auth'
 import protectPageMiddleware from './auth/protectPageMiddleware'
 
@@ -35,13 +34,16 @@ class App {
         this.server.use(passport.initialize());
         this.server.use(passport.session());
 
+        /**
+         * Para testar rotas sem precisar de sessão de login, comente este bloco abaixo.
+         */
         // Páginas protegidas
-        this.server.all('/', protectPageMiddleware);
-        this.server.use('/clients', protectPageMiddleware);
-        this.server.use('/consultations', protectPageMiddleware);
-        this.server.use('/procedures', protectPageMiddleware);
-        this.server.use('/teeth', protectPageMiddleware);
-        this.server.use('/users', protectPageMiddleware);
+        // this.server.all('/', protectPageMiddleware);
+        // this.server.use('/clients', protectPageMiddleware);
+        // this.server.use('/consultations', protectPageMiddleware);
+        // this.server.use('/procedures', protectPageMiddleware);
+        // this.server.use('/teeth', protectPageMiddleware);
+        // this.server.use('/users', protectPageMiddleware);
     }
 
     configPassport() {

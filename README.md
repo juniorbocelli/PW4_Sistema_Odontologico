@@ -5,7 +5,7 @@ Este documentos está em constante desenvolvimento. Consulte também a seção W
 
 O projeto ainda está em desenvolvimento; não está terminado. Não espere tentar executá-lo em sua máquina e não encontrar bugs e requisitos que ainda não foram implementado.
 
-(Última atualização: 11/12/2020)
+(Última atualização: 16/12/2020)
 
 ## Introdução
 
