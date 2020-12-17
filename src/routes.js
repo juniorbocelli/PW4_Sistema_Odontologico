@@ -37,9 +37,6 @@ routes.post('/clients', ClientValidator.validators, ErrorHandler.handler, Client
 routes.put('/clients/:id', ClientValidator.validators, ErrorHandler.handler, ClientController.update);
 routes.delete('/clients/:id', ClientController.delete);
 
-// Somente para testes!
-routes.get('/email', ClientController.sendConfirmationEmail);
-
 routes.get('/consultations', ConsultationController.index);
 routes.get('/consultations/:id', ConsultationController.show);
 routes.post('/consultations', ConsultationController.store);

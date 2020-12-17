@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer' ;
 import mailerConfig from '../../../config/mailer';
 
 class Mailer {
-    constructor(from, to, subject, textMessage, htmlModel = null) {
+    constructor(from, to, subject, textMessage = null, htmlModel = null) {
         this.from = from;
         this.to = to;
         this.subject = subject;
@@ -22,7 +22,7 @@ class Mailer {
             to: this.to, // list of receivers
             subject: this.subject, // Subject line
             text: this.textMessage, // plain text body
-            //html: "<b>Hello world?</b>", // html body
+            html: this.htmlModel, // html body
         }, (error)=>{
             if(error) console.error(error);
             else console.log('E-mail enviado com sucesso');

@@ -14,7 +14,7 @@ class UserController {
 	async index(req, res) {
 		const users = await User.findAll({
 			attributes: [
-				'id', 'name', 'mail', 'is_office'
+				'id', 'name', 'username', 'is_office'
 			]
 		});
 		return res.json(users)
@@ -33,7 +33,7 @@ class UserController {
 	async show(req, res) {
 		let user = await User.findByPk(req.params.id, {
 			attributes: [
-				'id', 'name', 'mail', 'is_office'
+				'id', 'name', 'username', 'is_office'
 			]
 		})
 		return res.json(user)

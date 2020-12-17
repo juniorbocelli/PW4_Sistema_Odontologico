@@ -1,6 +1,6 @@
 import { body } from 'express-validator';
 class ClientValidator {
-    constructor() {
+    constructor(req) {
         this.validator = [];
         this.addCpfValidator();
         this.addNameValidator();
@@ -18,7 +18,8 @@ class ClientValidator {
     addCpfValidator() {
         this.validator.push(body('cpf')
         .trim()
-        .matches(/[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}/i).withMessage('O formato do CPF é inválido.'));
+        .matches(/[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}/i).withMessage('O formato do CPF é inválido.')
+        .blacklist('\.-'));
     }
 
     addNameValidator() {
@@ -35,10 +36,9 @@ class ClientValidator {
     }
 
     addBirthDateValidator(){
-        this.validator.push(body('bith_date')
+        this.validator.push(body('birth_date')
         .trim()
-        .isDate({delimiters: ['/'], format: 'DD/MM/YYYY'})
-        .toDate());
+        .isDate().withMessage('O formato da data é inválido'));
     }
 
     addMailValidator() {
@@ -50,15 +50,18 @@ class ClientValidator {
     }
 
     addPhoneValidator() {
-        this.validator.push(body('phone')
-        .trim()
-        .matches(/^\([0-9]{2}\s[0-9]{4}-[0-9]{4}\)$/g).withMessage('O Telefone é inválido.'));
+            this.validator.push(body('phone')
+            .trim()
+            .matches(/^\([0-9]{2}\)\s[0-9]{4}-[0-9]{4}$/g).withMessage('O Telefone é inválido.')
+            .blacklist('()-\\s')
+            .optional({checkFalsy: true}));
     }
 
     addCellValidator() {
         this.validator.push(body('cell')
         .trim()
-        .matches(/^\([0-9]{2}\s[0-9]{5}-[0-9]{4}\)$/g).withMessage('O Telefone é inválido.'));
+        .matches(/^\([0-9]{2}\) [0-9]{5}-[0-9]{4}$/g).withMessage('O Telefone é inválido.')
+        .blacklist('()-\\s'));
     }
 }
 
