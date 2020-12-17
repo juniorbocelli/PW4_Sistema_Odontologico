@@ -36,6 +36,8 @@ routes.get('/clients/:id', ClientController.show);
 routes.post('/clients', ClientValidator.validators, ErrorHandler.handler, ClientController.store);
 routes.put('/clients/:id', ClientValidator.validators, ErrorHandler.handler, ClientController.update);
 routes.delete('/clients/:id', ClientController.delete);
+// Validação de e-mail
+routes.get('/clients/mail-validate', ClientController.mailValidate);
 
 routes.get('/consultations', ConsultationController.index);
 routes.get('/consultations/:id', ConsultationController.show);
@@ -57,11 +59,8 @@ routes.delete('/teeth/:id', ToothController.delete);
 
 routes.get('/users', UserController.index);
 routes.get('/users/:id', UserController.show);
-routes.post('/users', UserValidator.validators, ErrorHandler.handler, UserController.store);
-routes.put('/users/:id', (req, res, next)=>{
-    if(req.body.password === '') delete req.body.password;
-    next();
-}, UserValidator.validators, ErrorHandler.handler, UserController.update);
+routes.post('/users', new UserValidator('create').validators, ErrorHandler.handler, UserController.store);
+routes.put('/users/:id',new UserValidator('update').validators, ErrorHandler.handler, UserController.update);
 routes.delete('/users/:id', UserController.delete);
 
 export default routes;

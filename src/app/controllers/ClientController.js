@@ -64,6 +64,31 @@ class ClientController {
 		})
 		return res.json(client);
 	}
+
+	// Parte das confirmações por e-mail
+	async mailValidate(req, res) {
+		const id = parseInt(req.query.id);
+		const mail = req.query.m;
+		const token = req.query.t;
+
+		// Tenta encontrar o usuário
+		let client = await Client.findOne({
+			where: {
+				id: id,
+				mail: mail,
+				token: token
+			}
+		});
+
+		if(client != null) {
+			client.is_validated_mail = true;
+			client.update();
+
+			return res.json({message: "Seu e-mail foi confirmado com sucesso!"});
+		} else {
+			return res.json({message: "Ocorreu um erro e seu e-mail não pôde ser confirmado!"});
+		}
+	}
 }
 
 export default new ClientController();
