@@ -85,7 +85,7 @@ class ClientController {
 
 		if(client != null) {
 			client.is_validated_mail = true;
-			client.update();
+			client.save();
 
 			return res.json({message: "Seu e-mail foi confirmado com sucesso!"});
 		} else {
