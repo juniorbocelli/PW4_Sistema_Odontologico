@@ -36,7 +36,7 @@ class ConsultationController {
 	async index(req, res) {
 		const consultations = await Consultation.findAll({
 			attributes: [
-				'id', 'time', 'value', 'is_paid', 'is_confirmed'
+				'id', 'time', 'value', 'is_paid', 'is_confirmed', 'is_remember', 'token'
 			],
 			include: [
 				{
@@ -71,7 +71,7 @@ class ConsultationController {
 	async show(req, res) {
 		let consultation = await Consultation.findByPk(req.params.id, {
 			attributes: [
-				'id', 'time', 'value', 'is_paid', 'is_confirmed'
+				'id', 'time', 'value', 'is_paid', 'is_confirmed', 'is_remember', 'token'
 			],
 			include: [
 				{

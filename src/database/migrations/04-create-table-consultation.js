@@ -26,6 +26,11 @@ module.exports = {
 			allowNull: false,
 			default: false
 		},
+		is_remember: {
+			type: Sequelize.BOOLEAN,
+			allowNull: false,
+			default: false
+		},
 		token: {
 			type: Sequelize.STRING,
 			allowNull: false

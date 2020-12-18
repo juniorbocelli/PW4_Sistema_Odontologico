@@ -8,6 +8,7 @@ class Consultation extends Model {
         value: Sequelize.DOUBLE(10, 2),
         is_paid: Sequelize.BOOLEAN,
         is_confirmed: Sequelize.BOOLEAN,
+        is_remember: Sequelize.BOOLEAN,
         token: Sequelize.STRING
       },
       {
