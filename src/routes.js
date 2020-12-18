@@ -8,6 +8,7 @@ import ToothController from './app/controllers/ToothController';
 import UserController from './app/controllers/UserController';
 
 import ClientValidator from './app/models/validators/ClientValidator';
+import ConsultationValidator from './app/models/validators/ConsultationValidator';
 import ProcedureValidator from './app/models/validators/ProcedureValidator';
 import ToothValidator from './app/models/validators/ToothValidator'
 import UserValidator from './app/models/validators/UserValidator';
@@ -37,13 +38,15 @@ routes.post('/clients', ClientValidator.validators, ErrorHandler.handler, Client
 routes.put('/clients/:id', ClientValidator.validators, ErrorHandler.handler, ClientController.update);
 routes.delete('/clients/:id', ClientController.delete);
 // Validação de e-mail
-routes.get('/clients/mail-validate', ClientController.mailValidate);
+routes.get('/clients/mail-validate/:id', ClientController.mailValidate);
 
 routes.get('/consultations', ConsultationController.index);
 routes.get('/consultations/:id', ConsultationController.show);
-routes.post('/consultations', ConsultationController.store);
-routes.put('/consultations/:id', ConsultationController.update);
+routes.post('/consultations', ConsultationValidator.validators, ErrorHandler.handler, ConsultationController.store);
+routes.put('/consultations/:id', ConsultationValidator.validators, ErrorHandler.handler, ConsultationController.update);
 routes.delete('/consultations/:id', ConsultationController.delete);
+// Confirmação de consulta
+routes.get('/consultations/confirm-consultation/:id', ConsultationController.confirmConsultation);
 
 routes.get('/procedures', ProcedureController.index);
 routes.get('/procedures/:id', ProcedureController.show);

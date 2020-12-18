@@ -14,6 +14,9 @@ class ClientController {
 		const hash = bcrypt.hashSync(seed, bcryptConfig.saltRounds);
 		req.body.token = hash;
 
+		// Coloca telefone como null, caso seja vazio
+		if(req.body.phone === '') req.body.phone = null;
+
 		const client = await Client.create(req.body);
 
 
@@ -67,7 +70,7 @@ class ClientController {
 
 	// Parte das confirmações por e-mail
 	async mailValidate(req, res) {
-		const id = parseInt(req.query.id);
+		const id = parseInt(req.params.id);
 		const mail = req.query.m;
 		const token = req.query.t;
 

@@ -1,24 +1,20 @@
 class ConsultationConfirm {
-    constructor(user, consultation) {
-        this.user = user;
+    constructor(consultation, client) {
         this.consultation = consultation;
+        this.client = client;
     }
 
     html() {
         return `<html>
                 <head></head>
                 <body>
-                    <h2>Caro, <strong>${this.user.name}</strong></h2>
+                    <h2>Caro, <strong>${this.client.name}</strong></h2>
                     <p>Confirme sua presença na consulta abaixo:</p>
                     <p>Dia: ${this.consultation.time.toString()}</p>
-                    <p><a href="localhost:5000/confirm-consultation?
-                    id=${this.consultation.id}&u=${this.user.id}&
-                    t=${this.consultation.token}&
-                    r=s">Sim</a> 
-                    <a href="localhost:5000/confirm-consultation?
-                    id=${this.consultation.id}&u=${this.user.id}&
-                    t=${this.consultation.token}&
-                    r=n">&nbsp;&nbsp;&nbsp;&nbsp;Não</a>.</p>
+                    <p>
+                        <a href="http://localhost:5000/consultations/confirm-consultation/${this.consultation.id}?c=${this.client.id}&t=${this.consultation.token}&r=s">Sim</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="http://localhost:5000/consultations/confirm-consultation/${this.consultation.id}?c=${this.client.id}&t=${this.consultation.token}&r=n">Não</a>.
+                    </p>
                     <p>Obrigado</p>
                 </body>
                 </html>`;
