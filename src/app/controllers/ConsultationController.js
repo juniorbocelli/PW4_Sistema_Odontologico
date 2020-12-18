@@ -3,10 +3,6 @@ import Client from "../models/entities/Client";
 import Procedure from "../models/entities/Procedure";
 import Tooth from "../models/entities/Tooth";
 
-import Mailer from '../libs/mailer/Mailer';
-import ConsultationConfirm from '../libs/mailer/models/ConsultationConfirm';
-import mailerConfig from "../../config/mailer";
-
 import bcrypt from 'bcryptjs';
 import bcryptConfig from '../../config/bcrypt';
 
@@ -24,12 +20,6 @@ class ConsultationController {
 		req.body.time = req.body.time.replace('T', ' ');
 
 		const consultation = await Consultation.create(req.body);
-		const client = await Client.findByPk(req.body.client_id);
-
-		// Faz envio de e-mail para confirmação
-		let myHtmlMail = new ConsultationConfirm(consultation, client).html();
-		let my_mailer = new Mailer(`"Escritório Odontológico" <${mailerConfig.auth.user}>`, [`${client.mail}`], 'Confime sua presença', null, myHtmlMail);
-		my_mailer.send();
 
 		return res.json(consultation)
 	}
