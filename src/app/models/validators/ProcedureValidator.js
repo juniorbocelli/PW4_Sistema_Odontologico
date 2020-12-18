@@ -36,8 +36,7 @@ class ProcedureValidator {
         allow_decimal: true, 
         require_decimal: false, 
         digits_after_decimal: [2], 
-        allow_space_after_digits: false}).withMessage('O Preço é inválido.')
-        .toFloat());
+        allow_space_after_digits: false}).withMessage('O Preço é inválido.'));
     }
 
     addIsDentalValidator() {

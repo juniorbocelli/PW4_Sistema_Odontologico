@@ -43,7 +43,7 @@ Para o backend do projeto usamos o **Noje.js** na versão **14.15.1**.
 ### Módulos usados
 
  - express v4.17.1;
- - express-validator v6.6.1;
+ - express-validator v6.8.0;
  - cors v2.8.5;
  - ejs v3.1.5;
  - sequlize v6.3.5;

@@ -54,7 +54,8 @@ class ClientValidator {
             .trim()
             .matches(/^\([0-9]{2}\)\s[0-9]{4}-[0-9]{4}$/g).withMessage('O Telefone é inválido.')
             .blacklist('()-\\s')
-            .optional({checkFalsy: true}));
+            .optional({checkFalsy: true})
+            .replace([''], null));
     }
 
     addCellValidator() {

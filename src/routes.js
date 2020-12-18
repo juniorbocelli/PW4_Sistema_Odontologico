@@ -52,10 +52,10 @@ routes.put('/procedures/:id', ProcedureValidator.validators, ErrorHandler.handle
 routes.delete('/procedures/:id', ProcedureController.delete);
 
 routes.get('/teeth', ToothController.index);
-routes.get('/teeth/:id', ToothController.show);
+routes.get('/teeth/:code', ToothController.show);
 routes.post('/teeth', ToothValidator.validators, ErrorHandler.handler, ToothController.store);
-routes.put('/teeth/:id', ToothValidator.validators, ErrorHandler.handler, ToothController.update);
-routes.delete('/teeth/:id', ToothController.delete);
+routes.put('/teeth/:code', ToothValidator.validators, ErrorHandler.handler, ToothController.update);
+routes.delete('/teeth/:code', ToothController.delete);
 
 routes.get('/users', UserController.index);
 routes.get('/users/:id', UserController.show);

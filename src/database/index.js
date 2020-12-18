@@ -6,7 +6,7 @@ import Procedure from '../app/models/entities/Procedure';
 import Tooth from '../app/models/entities/Tooth';
 import User from '../app/models/entities/User';
 
-const models = [Client, Consultation, Procedure, Tooth, User];
+const models = [Client, Procedure, Tooth, User, Consultation];
 
 class Database {
   constructor(){

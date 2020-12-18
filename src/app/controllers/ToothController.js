@@ -14,17 +14,17 @@ class ToothController {
 		return res.json(teeth)
 	}
 	async update(req, res) {
-		let tooth = await Tooth.findByPk(req.params.id)
+		let tooth = await Tooth.findByPk(req.params.code)
 		tooth = await tooth.update(req.body)
 		return res.json(tooth)
 	}
 	async delete(req, res) {
-		let tooth = await Tooth.findByPk(req.params.id)
+		let tooth = await Tooth.findByPk(req.params.code)
 		tooth = await tooth.destroy(req.body)
 		return res.json(tooth)
 	}
 	async show(req, res) {
-		let tooth = await Tooth.findByPk(req.params.id, {
+		let tooth = await Tooth.findByPk(req.params.code, {
 			attributes: [
 				'code', 'name'
 			]

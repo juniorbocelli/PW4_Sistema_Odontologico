@@ -3,6 +3,9 @@ import Consultation from "../models/entities/Consultation";
 class ConsultationController {
   async store(req, res) {
     const consultation = await Consultation.create(req.body);
+    // Recentemente (07/12/2020) a equipe do express-validator adicionou um sanatizer replace(), mas aparentemente está bugado
+    req.body.value = parseFloat(req.body.value.replace(/\./g, '').replace(',', '.'));
+    
     return res.json(consultation)
   }
   async index(req, res) {
@@ -28,6 +31,9 @@ class ConsultationController {
     return res.json(consultations)
   }
   async update(req, res) {
+    // Recentemente (07/12/2020) a equipe do express-validator adicionou um sanatizer replace(), mas aparentemente está bugado
+    req.body.value = parseFloat(req.body.value.replace(/\./g, '').replace(',', '.'));
+    
     let consultation = await Consultation.findByPk(req.params.id)
     consultation = await consultation.update(req.body)
     return res.json(consultation)
