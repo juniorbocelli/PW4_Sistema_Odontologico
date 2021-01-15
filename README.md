@@ -19,7 +19,7 @@ Portanto, para poder executar o projeto na sua máquina, será necessário ter o
 
 ### Configurando o Banco de Dados
 
-As configurações de banco de dados do projeto estão no arquivo *PW4_Sistema_Odontologico\src\config\database.js* e são as seguintes:
+As configurações de banco de dados do projeto estão no arquivo *PW4_Sistema_Odontologico\api\config\database.js* e são as seguintes:
 
     module.exports  = {
 		dialect: 'mariadb',
@@ -89,7 +89,7 @@ Por exemplo:
 
 ### Inicializando o Sequelize
 
-O processo de inicialização e configuração de um projeto usando o ORM Sequelize estão bem documentados no site oficial e não será discutida aqui. Aqui vamos nos limitar a dizer que o arquivo de configuração do Sequelize estão no arquivo *PW4_Sistema_Odontologico\.sequelizerc* e os modelos para a criação das tabelas na pasta *PW4_Sistema_Odontologico\src\database\migrations*.
+O processo de inicialização e configuração de um projeto usando o ORM Sequelize estão bem documentados no site oficial e não será discutida aqui. Aqui vamos nos limitar a dizer que o arquivo de configuração do Sequelize estão no arquivo *PW4_Sistema_Odontologico\.sequelizerc* e os modelos para a criação das tabelas na pasta *PW4_Sistema_Odontologico\api\database\migrations*.
 
 Para a inicialização do banco de dados do projeto e a criação das tabelas, basta executar o comando:
 
@@ -101,7 +101,7 @@ Se tudo correr bem, você poderá observar as tabelas criadas no banco de dados 
 
 Para executar o projeto, basta executar o código:
 
-    nodemon src/server.js
+    nodemon api/server.js
 
 O servidor estará funcionando em http://localhost:5000/.
 
@@ -117,7 +117,7 @@ Neste projeto adotamos a seguinte nomenclatura para as rotas do sistema:
  - **update**: atualiza os dados de uma entidade no banco;
  - **delete**: deleta uma entidade do banco.
 
-Essas são as rotas essenciais, mas existem outras rotas especiais e com outros nomes no sistema, por exemplo a de login. Para conferir todas as rotas, acesse o arquivo *PW4_Sistema_Odontologico\src\routes.js*.
+Essas são as rotas essenciais, mas existem outras rotas especiais e com outros nomes no sistema, por exemplo a de login. Para conferir todas as rotas, acesse o arquivo *PW4_Sistema_Odontologico\api\routes.js*.
 
 ### As Validações
 
