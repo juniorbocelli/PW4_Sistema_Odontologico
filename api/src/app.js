@@ -21,7 +21,7 @@ class App {
 
     // Onde será configurado nossas rotas
     routes() {
-        this.server.use(routes);
+        this.server.use('api', routes);
     }
 
     // Se ocorrerá algum tipo de middleware na aplicação
@@ -38,12 +38,12 @@ class App {
          * Para testar rotas sem precisar de sessão de login, comente este bloco abaixo.
          */
         // Páginas protegidas
-        // this.server.all('/', protectPageMiddleware);
-        // this.server.use('/clients', protectPageMiddleware);
-        // this.server.use('/consultations', protectPageMiddleware);
-        // this.server.use('/procedures', protectPageMiddleware);
-        // this.server.use('/teeth', protectPageMiddleware);
-        // this.server.use('/users', protectPageMiddleware);
+        this.server.all('/', protectPageMiddleware);
+        this.server.use('/clients', protectPageMiddleware);
+        this.server.use('/consultations', protectPageMiddleware);
+        this.server.use('/procedures', protectPageMiddleware);
+        this.server.use('/teeth', protectPageMiddleware);
+        this.server.use('/users', protectPageMiddleware);
     }
 
     configPassport() {
