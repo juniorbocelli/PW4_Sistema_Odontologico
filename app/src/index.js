@@ -4,18 +4,23 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import * as serviceWorker from "./serviceWorker";
+//import * as serviceWorker from "./serviceWorker";
+
+// Redux
+import { Store } from "./store";
+import { Provider } from "react-redux";
 
 ReactDOM.render(
   <BrowserRouter>
-    <App />
+    <Provider store={ Store }>
+      <App />
+    </Provider>
   </BrowserRouter>,
   document.getElementById("root")
 );
 
-serviceWorker.unregister();
+//serviceWorker.unregister();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
