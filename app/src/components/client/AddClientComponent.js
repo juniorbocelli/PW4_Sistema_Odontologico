@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import InputMask from "react-input-mask";
+import Form from "react-bootstrap/Form";
 
 import ClientService from "../../services/ClientService";
 
@@ -13,6 +14,8 @@ class AddClientComponent extends Component {
     super(props);
     this.onChange = this.onChange.bind(this);
     this.saveClient = this.saveClient.bind(this);
+    this.checkFrontendValidations = this.checkFrontendValidations.bind(this);
+    this.showModal = this.showModal.bind(this);
     this.newClient = this.newClient.bind(this);
 
     this.state = {
@@ -26,22 +29,11 @@ class AddClientComponent extends Component {
       cell: "",
       is_validated_mail: false,
 
+      wasValidated: false,
+      sendButtonDisabled: false,
+
       submitted: false
     };
-
-    // Mostrar o modal para teste
-    changeModalData(
-      {
-        title: "", 
-        body: "", 
-        closeBtnTxt: "Fechar", 
-        actionBtnTxt: "Salvar",
-        closeBtnVisibility: true,
-        actionBtnVisibility: false,
-        //show: true
-      });
-
-      changeModalVisibility(true);
   }
 
   onChange(e) {
@@ -50,10 +42,35 @@ class AddClientComponent extends Component {
     });
   }
 
-  saveClient() {
+  checkFrontendValidations() {
     const formElement = document.getElementById('submit-form');
-    formElement.classList.add('was-validated');
 
+    // Validações no frontend
+    this.setState({wasValidated: true});
+    if(!formElement.checkValidity()) return;
+
+    this.saveClient();
+  }
+
+  showModal(title, body, closeBtnTxt = "Fechar", closeBtnVisibility = true, actionBtnTxt = "Ok", actionBtnVisibility = false) {
+    const data = {
+      title: title, 
+      body: body, 
+      closeBtnTxt: closeBtnTxt, 
+      actionBtnTxt: actionBtnTxt,
+      closeBtnVisibility: closeBtnVisibility,
+      actionBtnVisibility: actionBtnVisibility
+    };
+
+    try {
+      this.props.changeModalData(data);
+      this.props.changeModalVisibility(true);
+    } catch(errors) {
+      console.error(errors);
+    }
+  }
+
+  saveClient() {
     var data = {
       cpf: this.state.cpf,
       name: this.state.name,
@@ -62,13 +79,51 @@ class AddClientComponent extends Component {
       mail: this.state.mail,
       phone: this.state.phone,
       cell: this.state.cell,
-      is_validated_mail: false,
-
-      submitted: true
+      is_validated_mail: false
     };
+
+    this.setState({
+      sendButtonDisabled: true,
+    });
 
     ClientService.create(data)
       .then(response => {
+        console.log("Received data:", response.data);
+        console.log("Response:", response);
+
+        // Verifica se exitem erros
+        if('errors' in response.data) {
+          let content = '<ul>';
+          let fieldsList;
+
+          this.setState({
+            wasValidated: false,
+          });
+
+          fieldsList = document.querySelectorAll('#submit-form > input.is-invalid, #submit-form > select.is-invalid, #submit-form > textarea.is-invalid');
+          fieldsList.forEach((element) => {
+            element.classList.remove('is-invalid');
+          });
+
+          response.data.errors.forEach((error) => {
+            // Adiciona erro a mensagem
+            content = content + `<li>${error.msg}</li>`;
+
+            // Muda estilos dos campos com erro
+            let element = document.getElementById(error.param);
+            element.classList.add('is-invalid');
+          });
+          content = content + '</ul>';
+
+          this.showModal("Erro", content);
+
+          this.setState({
+            sendButtonDisabled: false,
+          });
+
+          return;
+        }
+
         this.setState({
           id: response.data.id,
           cpf: response.data.cpf,
@@ -82,10 +137,12 @@ class AddClientComponent extends Component {
 
           submitted: true
         });
-        console.log(response.data);
       })
       .catch(e => {
         console.log(e);
+        this.setState({
+          sendButtonDisabled: false,
+        });
       });
   }
 
@@ -101,21 +158,16 @@ class AddClientComponent extends Component {
       cell: "",
       is_validated_mail: false,
 
+      wasValidated: false,
+      sendButtonDisabled: false,
+
       submitted: false
     });
   }
 
-  hasValidations() {
-
-  }
-
-  showValidationsMessages(errors) {
-
-  }
-
   render() {
     return (
-      <div id="submit-form">
+      <Form id="submit-form" className={this.state.wasValidated?'was-validated':''} noValidate>
         <h3 className="mb-4 mt-4">Cadastrar Novo Cliente</h3>
 
         {this.state.submitted ? (
@@ -224,8 +276,8 @@ class AddClientComponent extends Component {
                 <div className="col form-group">
                   <label htmlFor="cell">Celular</label>
                   <InputMask
-                    mask="(99) 9 9999-9999"
-                    pattern="\(\d{2}\) 9 \d{4}-\d{4}"
+                    mask="(99) 99999-9999"
+                    pattern="\(\d{2}\) \d{5}-\d{4}"
                     type="text"
                     className="form-control"
                     id="cell"
@@ -237,20 +289,18 @@ class AddClientComponent extends Component {
                 </div>
               </div>
 
-              <button onClick={this.saveClient} className="btn btn-success">
+              <button type="button" onClick={this.saveClient} className="btn btn-success" disabled={this.state.sendButtonDisabled}>
                 Salvar
             	</button>
             </div>
           )}
-      </div>
+      </Form>
     );
   }
 }
 
-const mapSteteToProps = (store)=> ({
-  modalState: store.dialogModalState
-});
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({changeModalData, changeModalVisibility}, dispatch);
+}
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({changeModalData, changeModalVisibility}, dispatch);
-
-export default connect(mapSteteToProps, mapDispatchToProps)(AddClientComponent);
+export default connect(null, mapDispatchToProps)(AddClientComponent);

@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 // Importação dos componentes
-import AddClient from "./components/client/AddClientComponent";
+import AddClientComponent from "./components/client/AddClientComponent";
 //import Mod2 from "./components/mod2.component";
 //import Mod3 from "./components/mod3-list.component";
 import DialogModalComponent from "./components/miscellaneous/DialogModalComponent";
@@ -34,11 +34,11 @@ class App extends Component {
                   <div className="dropdown-menu" aria-labelledby="navbarDropdownConsultations">
                     <Link to={"/consultations"} className="dropdown-item">
                       Ver todas
-                  </Link>
+                    </Link>
 
                     <Link to={"/new-consultation"} className="dropdown-item">
                       Nova consulta
-                  </Link>
+                    </Link>
                   </div>
                 </li>
 
@@ -91,7 +91,7 @@ class App extends Component {
             <Switch>
               {/* Rotas que estão que estão na navbar */}
               {/** <Route exact path={["/", "/tutorials"]} component={TutorialsList} />*/}
-              <Route exact path="/clients/new" component={AddClient} />
+              <Route exact path="/clients/new" component={AddClientComponent} />
 
               {/* Rotas que não estão na navbar */}
               {/**<Route path="/tutorials/:id" component={Tutorial} />*/}

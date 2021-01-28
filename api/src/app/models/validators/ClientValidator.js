@@ -60,7 +60,7 @@ class ClientValidator {
     addCellValidator() {
         this.validator.push(body('cell')
         .trim()
-        .matches(/^\([0-9]{2}\) 9 [0-9]{4}-[0-9]{4}$/g).withMessage('O Celular é inválido.')
+        .matches(/^\([0-9]{2}\)\s[0-9]{5}-[0-9]{4}$/g).withMessage('O Celular é inválido.')
         .blacklist('()-\\s'));
     }
 }

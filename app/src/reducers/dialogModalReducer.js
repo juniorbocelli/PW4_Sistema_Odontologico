@@ -27,7 +27,7 @@ const dialogModalReducer = (state = initialState, action) => {
             return {
                 ...state,
                 //show: action.show
-                show: action
+                show: action.payload
             }
         
         default:
@@ -35,4 +35,4 @@ const dialogModalReducer = (state = initialState, action) => {
     }
 }
 
-export default dialogModalReducer;
+export { dialogModalReducer };

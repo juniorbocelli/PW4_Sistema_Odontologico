@@ -1,41 +1,39 @@
 import React, { Component } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import ReactHtmlParser from 'react-html-parser';
+
+// Redux
+import { changeModalData, changeModalVisibility } from "../../actions";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 class DialogModalComponent extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			title: "", 
-			body: "", 
-			closeBtnTxt: "Fechar", 
-			actionBtnTxt: "Salvar",
-			closeBtnVisibility: true,
-			actionBtnVisibility: false,
-			show: false
-		}
-	}
 
 	handleClose = () => {
-		this.setState({show: false});
+		this.props.changeModalVisibility(false);
+	}
+
+	actionCallBack = () => {
+		this.props.changeModalVisibility(false);
 	}
 
 	render() {
 		return (
-			<Modal show={this.state.show} onHide={this.handleClose}>
+			<Modal show={this.props.show} onHide={this.handleClose}>
 				<Modal.Header closeButton>
-					<Modal.Title>{this.state.title}</Modal.Title>
+					<Modal.Title>{this.props.title}</Modal.Title>
 				</Modal.Header>
-				<Modal.Body>{this.state.body}</Modal.Body>
+				<Modal.Body>{ ReactHtmlParser(this.props.body) }</Modal.Body>
 				<Modal.Footer>
-					{!this.state.closeBtnVisibility &&
+					{!this.props.closeBtnVisibility &&
 					<Button variant="secondary" onClick={this.handleClose}>
-						{this.state.closeBtnTxt}
+						{this.props.closeBtnTxt}
 					</Button>
 					}
-					{!this.state.actionBtnVisibility &&
-					<Button variant="primary" onClick={this.handleClose}>
-						{this.state.actionBtnTxt}
+					{!this.props.actionBtnVisibility &&
+					<Button variant="primary" onClick={this.actionCallBack}>
+						{this.props.actionBtnTxt}
 					</Button>
 					}
 				</Modal.Footer>
@@ -44,4 +42,16 @@ class DialogModalComponent extends Component {
 	}
 }
 
-export default DialogModalComponent;
+const mapStateToProps = (store)=> ({
+	title: store.dialogModalState.title,
+	body: store.dialogModalState.body,
+	closeBtnTxt: store.dialogModalState.closeBtnTxt,
+	actionBtnTxt: store.dialogModalState.actionBtnTxt,
+	closeBtnVisibility: store.dialogModalState.closeBtnVisibility,
+	actionBtnVisibility: store.dialogModalState.actionBtnVisibility,
+	show: store.dialogModalState.show
+});
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({changeModalData, changeModalVisibility}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(DialogModalComponent);
