@@ -182,7 +182,7 @@ class AddClientComponent extends Component {
               <div className="form-row">
                 <div className="col">
                   <div className="form-group">
-                    <label htmlFor="name">Name</label>
+                    <label htmlFor="name">Nome</label>
                     <input
                       type="text"
                       className="form-control"

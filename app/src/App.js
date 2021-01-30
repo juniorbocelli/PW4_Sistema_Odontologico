@@ -1,12 +1,15 @@
 import React, { Component } from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+
 // Importação dos componentes
 import AddClientComponent from "./components/client/AddClientComponent";
-//import Mod2 from "./components/mod2.component";
-//import Mod3 from "./components/mod3-list.component";
+import AddProcedureComponent from "./components/procedure/AddProcedureComponent";
+import AddConsultationComponent from "./components/consultation/AddConsultationComponent";
+import EditUserComponent from "./components/user/EditUserComponent";
 import DialogModalComponent from "./components/miscellaneous/DialogModalComponent";
 
 class App extends Component {
@@ -15,72 +18,48 @@ class App extends Component {
       <>
         <div>
           {/* Navbar */}
-          <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a href="/" className="navbar-brand">
-              Clínica Odontológica
-          </a>
+          <Navbar bg="dark" variant="dark" expand="lg">
+            <Navbar.Brand href="/">Clínica Odontológica</Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="mr-auto">
 
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span className="navbar-toggler-icon"></span>
-            </button>
+                <NavDropdown title="Consultas" id="navbarDropdownConsultations">
+                  <NavDropdown.Item href="/consultations">
+                    Ver todas
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="/consultations/new">
+                    Nova consulta
+                  </NavDropdown.Item>
+                </NavDropdown>
 
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul className="navbar-nav mr-auto">
+                <NavDropdown title="Clientes" id="navbarDropdownClients">
+                  <NavDropdown.Item href="/clients">
+                    Ver todos
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="/clients/new">
+                    Novo cliente
+                  </NavDropdown.Item>
+                </NavDropdown>
 
-                <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownConsultations" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Consultas
-                </a>
-                  <div className="dropdown-menu" aria-labelledby="navbarDropdownConsultations">
-                    <Link to={"/consultations"} className="dropdown-item">
-                      Ver todas
-                    </Link>
+              </Nav>
+            </Navbar.Collapse>
 
-                    <Link to={"/new-consultation"} className="dropdown-item">
-                      Nova consulta
-                    </Link>
-                  </div>
-                </li>
-
-                <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle" href="/clients/new" id="navbarDropdownClients" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Clientes
-                </a>
-                  <div className="dropdown-menu" aria-labelledby="navbarDropdownClients">
-                    <Link to={"/clients/all"} className="dropdown-item">
-                      Ver todos
-                  </Link>
-
-                    <Link to={"/clients/new"} className="dropdown-item">
-                      Novo cliente
-                  </Link>
-                  </div>
-                </li>
-
-                {/* <ul className="navbar-nav">
-                <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownProcedures" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <Navbar.Toggle />
+            <Navbar.Collapse className="justify-content-end">
+              <Nav className="mr-2">
+                <NavDropdown title="Administração" id="navbarDropdownAdmin">
+                  <NavDropdown.Item href="/users/1">
+                    Meus dados
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="/procedures/new">
                     Procedimentos
-                  </a>
-                  <div className="dropdown-menu" aria-labelledby="navbarDropdownProcedures">
-                    <Link to={"/procedures"} className="dropdown-item">
-                      Ver todos
-                    </Link>
+                  </NavDropdown.Item>
+                </NavDropdown>
+              </Nav>
+            </Navbar.Collapse>
 
-                    <Link to={"/new-procedure"} className="dropdown-item">
-                      Novo procedimento
-                    </Link>
-                  </div>
-                </li>
-
-                <Link to={"/user/:id"} className="dropdown-item">
-                  Novo procedimento
-                </Link>
-              </ul> */}
-
-              </ul>
-            </div>
-          </nav>
+          </Navbar>
 
           {/**
          * ROTAS
@@ -92,6 +71,9 @@ class App extends Component {
               {/* Rotas que estão que estão na navbar */}
               {/** <Route exact path={["/", "/tutorials"]} component={TutorialsList} />*/}
               <Route exact path="/clients/new" component={AddClientComponent} />
+              <Route exact path="/procedures/new" component={AddProcedureComponent} />
+              <Route exact path="/consultations/new" component={AddConsultationComponent} />
+              <Route exact path="/users/:id" component={EditUserComponent} />
 
               {/* Rotas que não estão na navbar */}
               {/**<Route path="/tutorials/:id" component={Tutorial} />*/}

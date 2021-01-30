@@ -29,7 +29,7 @@ class UserValidator {
     addPasswordValidator() {
         this.validator.push(body('password')
         .trim()
-        .isLength({ min: 6 }).withMessage('A Senha deve ter no mínimo 5 caracteres.'));
+        .isLength({ min: 6 }).withMessage('A Senha deve ter no mínimo 6 caracteres.'));
     }
 
     addOptionalPasswordValidator() {
