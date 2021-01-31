@@ -1,3 +1,5 @@
+import { Op } from 'sequelize';
+
 import Consultation from "../models/entities/Consultation";
 import Client from "../models/entities/Client";
 import Procedure from "../models/entities/Procedure";
@@ -106,6 +108,40 @@ class ConsultationController {
 			// TODO: mudar classe e db para sabermos qauis consultas foram canceladas de fato
 			return res.json({ message: "Que pena que não poderá comparecer!" });
 		}
+	}
+
+	async getByday(req, res) {
+		let initialDay = new Date(`${req.body.day}T00:00`);
+		let finalDay = new Date(`${req.body.day}T23:59`);
+
+		const consultations = await Consultation.findAll({
+			attributes: [
+				'id', 'time', 'value', 'is_paid', 'is_confirmed', 'is_remember', 'token'
+			],
+			where: {
+				time: {
+					[Op.and]: {
+						[Op.lt]: finalDay,
+						[Op.gt]: initialDay
+					}
+				}
+			},
+			include: [
+				{
+					model: Client,
+					as: 'client'
+				},
+				{
+					model: Procedure,
+					as: 'procedure'
+				},
+				{
+					model: Tooth,
+					as: 'tooth'
+				}
+			]
+		});
+		return res.json(consultations)
 	}
 }
 

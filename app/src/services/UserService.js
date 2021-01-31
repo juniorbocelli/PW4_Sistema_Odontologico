@@ -24,6 +24,10 @@ class UserService {
   findByName(name) {
     return http.get(`/users?name=${name}`);
   }
+
+  login(data) {
+    return http.post('/login', data);
+  }
 }
 
 export default new UserService();

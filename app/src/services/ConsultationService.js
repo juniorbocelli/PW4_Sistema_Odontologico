@@ -24,6 +24,10 @@ class ConsultationService {
   findByDate(date) {
     return http.get(`/consultations?date=${date}`);
   }
+
+  getByDay(day) {
+    return http.post(`/consultations/day`, day);
+  }
 }
 
 export default new ConsultationService();

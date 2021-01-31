@@ -35,7 +35,7 @@ module.exports = {
 			allowNull: true
 		},
 		cell: {
-			type: Sequelize.STRING(10),
+			type: Sequelize.STRING(11),
 			allowNull: false
 		},
 		is_validated_mail: {

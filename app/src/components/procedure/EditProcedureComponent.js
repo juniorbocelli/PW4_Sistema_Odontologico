@@ -1,28 +1,29 @@
 import React, { Component } from "react";
+import NumberFormat from 'react-number-format';
 import Form from "react-bootstrap/Form";
 
-import UserService from "../../services/UserService";
+import ProcedureService from "../../services/ProcedureService";
 
 // Redux
 import { changeModalData, changeModalVisibility } from "../../actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { withRouter } from "react-router";
 
-class EditUserComponent extends Component {
+class EditProcedureComponent extends Component {
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
-		this.saveUser = this.saveUser.bind(this);
-		this.loadData = this.loadData.bind(this);
+		this.saveProcedure = this.saveProcedure.bind(this);
 		this.showModal = this.showModal.bind(this);
+		this.loadData = this.loadData.bind(this);
 
 		this.state = {
 			id: this.props.match.params.id,
 			name: "",
-			username: "",
-			password: "",
-			
+			price: "",
+			is_dental: false,
+
+			wasValidated: false,
 			sendButtonDisabled: false,
 
 			submitted: false
@@ -32,13 +33,13 @@ class EditUserComponent extends Component {
 	}
 
 	loadData(id) {
-		UserService.get(id)
+		ProcedureService.get(id)
 			.then((response) => {
 				console.log(response);
-
 				this.setState({
 					name: response.data.name,
-					username: response.data.username,
+					price: response.data.price,
+					is_dental: response.data.is_dental,
 				});
 			})
 			.catch((e) => {
@@ -70,62 +71,59 @@ class EditUserComponent extends Component {
 		}
 	}
 
-	saveUser() {
+	saveProcedure() {
 		var data = {
 			id: this.state.id,
 			name: this.state.name,
-			username: this.state.username,
-			password: this.state.password,
+			price: this.state.price,
+			is_dental: this.props.is_dental === "true" ? true : false,
 		};
-
-		console.log("data", data);
 
 		this.setState({
 			sendButtonDisabled: true,
 		});
 
-		UserService.update(data)
+		ProcedureService.update(data)
 			.then(response => {
 				let fieldsList = document.querySelectorAll('#submit-form  input, #submit-form  select');
 				console.log(fieldsList)
 				fieldsList.forEach((element) => {
-				  element.classList.remove(['is-valid', 'is-invalid']);
-				  element.classList.add('is-valid');
+					element.classList.remove(['is-valid', 'is-invalid']);
+					element.classList.add('is-valid');
 				});
-		
+
 				// Verifica se exitem erros
-				if('errors' in response.data) {
-				  let content = '<ul>';
-		
-				  this.setState({
-					wasValidated: false,
-				  });
-		
-				  response.data.errors.forEach((error) => {
-					// Adiciona erro a mensagem
-					content = content + `<li>${error.msg}</li>`;
-		
-					// Muda estilos dos campos com erro
-					let element = document.getElementById(error.param);
-					element.classList.remove('is-valid');
-					element.classList.add('is-invalid');
-				  });
-				  content = content + '</ul>';
-		
-				  this.showModal("Erro", content);
-		
-				  this.setState({
-					sendButtonDisabled: false,
-				  });
-		
-				  return;
+				if ('errors' in response.data) {
+					let content = '<ul>';
+
+					this.setState({
+						wasValidated: false,
+					});
+
+					response.data.errors.forEach((error) => {
+						// Adiciona erro a mensagem
+						content = content + `<li>${error.msg}</li>`;
+
+						// Muda estilos dos campos com erro
+						let element = document.getElementById(error.param);
+						element.classList.remove('is-valid');
+						element.classList.add('is-invalid');
+					});
+					content = content + '</ul>';
+
+					this.showModal("Erro", content);
+
+					this.setState({
+						sendButtonDisabled: false,
+					});
+
+					return;
 				}
 
 				this.setState({
-					id: response.data.id,
 					name: response.data.name,
-					username: response.data.username,
-					password: response.password,
+					price: response.data.price,
+					is_dental: response.data.is_dental ? "true" : "false",
 
 					submitted: true
 				});
@@ -141,7 +139,7 @@ class EditUserComponent extends Component {
 	render() {
 		return (
 			<Form id="submit-form" className={this.state.wasValidated ? 'was-validated' : ''} noValidate>
-				<h3 className="mb-4 mt-4">Editar Usuário</h3>
+				<h3 className="mb-4 mt-4">Editar Procedimento</h3>
 				<div>
 					<div className="form-row">
 						<div className="col form-group">
@@ -158,35 +156,43 @@ class EditUserComponent extends Component {
 						</div>
 
 						<div className="col form-group">
-							<label htmlFor="username">Usuário</label>
-							<input
-								type="text"
+							<label htmlFor="price">Preço</label>
+							<NumberFormat
 								className="form-control"
-								id="username"
-								value={this.state.username}
+								id="price"
+								value={this.state.price}
 								onChange={this.onChange}
-								name="username"
+								name="price"
+								thousandSeparator="."
+								decimalSeparator=","
+								decimalScale={2}
+								fixedDecimalScale={true}
+								allowNegative={false}
 								required
 							/>
 						</div>
 
 						<div className="col form-group">
-							<label htmlFor="password">Senha</label>
-							<input
-								type="password"
-								className="form-control"
-								id="password"
-								value={this.state.password}
+							<label htmlFor="is_dental">O Procedimento é dental?</label>
+							<select
+								className="custom-select"
+								id="is_dental"
+								value={this.state.is_dental}
 								onChange={this.onChange}
-								name="password"
+								name="is_dental"
 								required
-							/>
+							>
+
+								<option value="true">Sim</option>
+								<option value="false">Não</option>
+
+							</select>
 						</div>
 					</div>
 
-					<button type="button" onClick={this.saveUser} className="btn btn-success" disabled={this.state.sendButtonDisabled}>
+					<button type="button" onClick={this.saveProcedure} className="btn btn-success" disabled={this.state.sendButtonDisabled}>
 						Salvar
-          </button>
+              		</button>
 				</div>
 			</Form>
 		);
@@ -197,4 +203,4 @@ const mapDispatchToProps = (dispatch) => {
 	return bindActionCreators({ changeModalData, changeModalVisibility }, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(withRouter(EditUserComponent));
+export default connect(null, mapDispatchToProps)(EditProcedureComponent);

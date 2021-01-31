@@ -17,7 +17,6 @@ class AddConsultationComponent extends Component {
 		super(props);
 		this.onChange = this.onChange.bind(this);
 		this.saveConsultation = this.saveConsultation.bind(this);
-		this.checkFrontendValidations = this.checkFrontendValidations.bind(this);
 		this.showModal = this.showModal.bind(this);
 		this.newConsultation = this.newConsultation.bind(this);
 
@@ -31,7 +30,7 @@ class AddConsultationComponent extends Component {
 			procedure_id: "",
 			time: "",
 			date: "",
-			price: "",
+			value: "",
 			is_paid: false,
 			is_confirmed: false,
 
@@ -120,16 +119,6 @@ class AddConsultationComponent extends Component {
 		}
 	}
 
-	checkFrontendValidations() {
-		const formElement = document.getElementById('submit-form');
-
-		// Validações no frontend
-		this.setState({ wasValidated: true });
-		if (!formElement.checkValidity()) return;
-
-		this.saveConsultation();
-	}
-
 	showModal(title, body, closeBtnTxt = "Fechar", closeBtnVisibility = true, actionBtnTxt = "Ok", actionBtnVisibility = false) {
 		const data = {
 			title: title,
@@ -153,7 +142,7 @@ class AddConsultationComponent extends Component {
 			client_id: this.state.client_id,
 			procedure_id: this.state.procedure_id,
 			time: String(this.state.date) + "T" + String(this.state.time),
-			price: this.state.price,
+			value: this.state.value,
 			is_paid: false,
 			is_confirmed: false,
 			is_dental_procedure: this.state.is_dental_procedure
@@ -165,40 +154,39 @@ class AddConsultationComponent extends Component {
 
 		ConsultationService.create(data)
 			.then(response => {
-				console.log("Received data:", response.data);
-				console.log("Response:", response);
-
+				let fieldsList = document.querySelectorAll('#submit-form  input, #submit-form  select');
+				console.log(fieldsList)
+				fieldsList.forEach((element) => {
+				  element.classList.remove(['is-valid', 'is-invalid']);
+				  element.classList.add('is-valid');
+				});
+		
 				// Verifica se exitem erros
-				if ('errors' in response.data) {
-					let content = '<ul>';
-					let fieldsList;
-
-					this.setState({
-						wasValidated: false,
-					});
-
-					fieldsList = document.querySelectorAll('#submit-form > input.is-invalid, #submit-form > select.is-invalid, #submit-form > textarea.is-invalid');
-					fieldsList.forEach((element) => {
-						element.classList.remove('is-invalid');
-					});
-
-					response.data.errors.forEach((error) => {
-						// Adiciona erro a mensagem
-						content = content + `<li>${error.msg}</li>`;
-
-						// Muda estilos dos campos com erro
-						let element = document.getElementById(error.param);
-						element.classList.add('is-invalid');
-					});
-					content = content + '</ul>';
-
-					this.showModal("Erro", content);
-
-					this.setState({
-						sendButtonDisabled: false,
-					});
-
-					return;
+				if('errors' in response.data) {
+				  let content = '<ul>';
+		
+				  this.setState({
+					wasValidated: false,
+				  });
+		
+				  response.data.errors.forEach((error) => {
+					// Adiciona erro a mensagem
+					content = content + `<li>${error.msg}</li>`;
+		
+					// Muda estilos dos campos com erro
+					let element = document.getElementById(error.param);
+					element.classList.remove('is-valid');
+					element.classList.add('is-invalid');
+				  });
+				  content = content + '</ul>';
+		
+				  this.showModal("Erro", content);
+		
+				  this.setState({
+					sendButtonDisabled: false,
+				  });
+		
+				  return;
 				}
 
 				this.setState({
@@ -206,7 +194,7 @@ class AddConsultationComponent extends Component {
 					procedure_id: response.data.procedure_id,
 					time: response.data.time,
 					date: response.date,
-					price: response.data.price,
+					value: response.data.value,
 					is_paid: response.data.is_paid,
 					is_confirmed: response.data.is_confirmed,
 					is_dental_procedure: response.data.is_dental_procedure,
@@ -229,7 +217,7 @@ class AddConsultationComponent extends Component {
 			procedure_id: "",
 			time: "",
 			date: "",
-			price: "",
+			value: "",
 			is_paid: false,
 			is_confirmed: false,
 			is_dental_procedure: false,
@@ -244,14 +232,14 @@ class AddConsultationComponent extends Component {
 	render() {
 		return (
 			<Form id="submit-form" className={this.state.wasValidated ? 'was-validated' : ''} noValidate>
-				<h3 className="mb-4 mt-4">Cadastrar Novo Cliente</h3>
+				<h3 className="mb-4 mt-4">Nova Consulta</h3>
 
 				{this.state.submitted ? (
 					<div>
-						<h4>Consulta salva com sucesso!</h4>
+						<h4>Consulta cadastrada com sucesso!</h4>
 						<button className="btn btn-success" onClick={this.newConsultation}>
 							Nova
-            </button>
+			</button>
 					</div>
 				) : (
 						<div>
@@ -350,13 +338,13 @@ class AddConsultationComponent extends Component {
 								</div>
 
 								<div className="col form-group">
-									<label htmlFor="price">Preço</label>
+									<label htmlFor="value">Preço</label>
 									<NumberFormat
 										className="form-control"
-										id="price"
-										value={this.state.price}
+										id="value"
+										value={this.state.value}
 										onChange={this.onChange}
-										name="price"
+										name="value"
 										thousandSeparator="."
 										decimalSeparator=","
 										decimalScale={2}
@@ -386,8 +374,8 @@ class AddConsultationComponent extends Component {
 							</div>
 
 							<button type="button" onClick={this.saveConsultation} className="btn btn-success" disabled={this.state.sendButtonDisabled}>
-								Salvar
-            	</button>
+								Cadastrar
+							</button>
 						</div>
 					)}
 			</Form>

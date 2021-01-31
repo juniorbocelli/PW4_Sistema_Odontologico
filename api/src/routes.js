@@ -25,45 +25,52 @@ routes.get('/login', (req, res, next) => {
 });
  
 // API que recebe os dados de login para validar ou não um usuário
-routes.post('/login',
-    passport.authenticate('local', { 
-        successRedirect: '/', 
-        failureRedirect: '/login?fail=true' 
-    })
-);
+routes.post('/api/login', function(req, res, next) {
+    passport.authenticate('local', function(err, user, info) {
+      if (err) { return res.json({error: "Problemas na autentificação!"}); }
+      if (!user) { return res.json({error: "Login inválido!"}); }
+      req.logIn(user, function(err) {
+        if (err) { return next(err); }
+        let myUser = req.user;
+        return res.json(myUser);
+      });
+    })(req, res, next);
+  });
 
-routes.get('/clients', ClientController.index);
-routes.get('/clients/:id', ClientController.show);
-routes.post('/clients', ClientValidator.validators, ErrorHandler.handler, ClientController.store);
-routes.put('/clients/:id', ClientValidator.validators, ErrorHandler.handler, ClientController.update);
-routes.delete('/clients/:id', ClientController.delete);
+routes.get('/api/clients', ClientController.index);
+routes.get('/api/clients/:id', ClientController.show);
+routes.post('/api/clients', ClientValidator.validators, ErrorHandler.handler, ClientController.store);
+routes.put('/api/clients/:id', ClientValidator.validators, ErrorHandler.handler, ClientController.update);
+routes.delete('/api/clients/:id', ClientController.delete);
 // Validação de e-mail
 routes.get('/clients/mail-validate/:id', ClientController.mailValidate);
 
-routes.get('/consultations', ConsultationController.index);
-routes.get('/consultations/:id', ConsultationController.show);
-routes.post('/consultations', ConsultationValidator.validators, ErrorHandler.handler, ConsultationController.store);
-routes.put('/consultations/:id', ConsultationValidator.validators, ErrorHandler.handler, ConsultationController.update);
-routes.delete('/consultations/:id', ConsultationController.delete);
+routes.get('/api/consultations', ConsultationController.index);
+routes.get('/api/consultations/:id', ConsultationController.show);
+routes.post('/api/consultations', ConsultationValidator.validators, ErrorHandler.handler, ConsultationController.store);
+routes.put('/api/consultations/:id', ConsultationValidator.validators, ErrorHandler.handler, ConsultationController.update);
+routes.delete('/api/consultations/:id', ConsultationController.delete);
 // Confirmação de consulta
 routes.get('/consultations/confirm-consultation/:id', ConsultationController.confirmConsultation);
+// Consultas do dia
+routes.post('/api/consultations/day', ConsultationController.getByday);
 
-routes.get('/procedures', ProcedureController.index);
-routes.get('/procedures/:id', ProcedureController.show);
-routes.post('/procedures', ProcedureValidator.validators, ErrorHandler.handler, ProcedureController.store);
-routes.put('/procedures/:id', ProcedureValidator.validators, ErrorHandler.handler, ProcedureController.update);
-routes.delete('/procedures/:id', ProcedureController.delete);
+routes.get('/api/procedures', ProcedureController.index);
+routes.get('/api/procedures/:id', ProcedureController.show);
+routes.post('/api/procedures', ProcedureValidator.validators, ErrorHandler.handler, ProcedureController.store);
+routes.put('/api/procedures/:id', ProcedureValidator.validators, ErrorHandler.handler, ProcedureController.update);
+routes.delete('/api/procedures/:id', ProcedureController.delete);
 
-routes.get('/teeth', ToothController.index);
-routes.get('/teeth/:code', ToothController.show);
-routes.post('/teeth', ToothValidator.validators, ErrorHandler.handler, ToothController.store);
-routes.put('/teeth/:code', ToothValidator.validators, ErrorHandler.handler, ToothController.update);
-routes.delete('/teeth/:code', ToothController.delete);
+routes.get('/api/teeth', ToothController.index);
+routes.get('/api/teeth/:code', ToothController.show);
+routes.post('/api/teeth', ToothValidator.validators, ErrorHandler.handler, ToothController.store);
+routes.put('/api/teeth/:code', ToothValidator.validators, ErrorHandler.handler, ToothController.update);
+routes.delete('/api/teeth/:code', ToothController.delete);
 
-routes.get('/users', UserController.index);
-routes.get('/users/:id', UserController.show);
+routes.get('/api/users', UserController.index);
+routes.get('/api/users/:id', UserController.show);
 routes.post('/users', new UserValidator('create').validators, ErrorHandler.handler, UserController.store);
-routes.put('/users/:id',new UserValidator('update').validators, ErrorHandler.handler, UserController.update);
-routes.delete('/users/:id', UserController.delete);
+routes.put('/api/users/:id',new UserValidator('update').validators, ErrorHandler.handler, UserController.update);
+routes.delete('/api/users/:id', UserController.delete);
 
 export default routes;

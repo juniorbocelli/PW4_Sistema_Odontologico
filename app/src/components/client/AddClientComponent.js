@@ -14,7 +14,6 @@ class AddClientComponent extends Component {
     super(props);
     this.onChange = this.onChange.bind(this);
     this.saveClient = this.saveClient.bind(this);
-    this.checkFrontendValidations = this.checkFrontendValidations.bind(this);
     this.showModal = this.showModal.bind(this);
     this.newClient = this.newClient.bind(this);
 
@@ -40,16 +39,6 @@ class AddClientComponent extends Component {
     this.setState({
       [e.target.name]: e.target.value
     });
-  }
-
-  checkFrontendValidations() {
-    const formElement = document.getElementById('submit-form');
-
-    // Validações no frontend
-    this.setState({wasValidated: true});
-    if(!formElement.checkValidity()) return;
-
-    this.saveClient();
   }
 
   showModal(title, body, closeBtnTxt = "Fechar", closeBtnVisibility = true, actionBtnTxt = "Ok", actionBtnVisibility = false) {
@@ -88,21 +77,19 @@ class AddClientComponent extends Component {
 
     ClientService.create(data)
       .then(response => {
-        console.log("Received data:", response.data);
-        console.log("Response:", response);
+        let fieldsList = document.querySelectorAll('#submit-form  input, #submit-form  select');
+        console.log(fieldsList)
+        fieldsList.forEach((element) => {
+          element.classList.remove(['is-valid', 'is-invalid']);
+          element.classList.add('is-valid');
+        });
 
         // Verifica se exitem erros
         if('errors' in response.data) {
           let content = '<ul>';
-          let fieldsList;
 
           this.setState({
             wasValidated: false,
-          });
-
-          fieldsList = document.querySelectorAll('#submit-form > input.is-invalid, #submit-form > select.is-invalid, #submit-form > textarea.is-invalid');
-          fieldsList.forEach((element) => {
-            element.classList.remove('is-invalid');
           });
 
           response.data.errors.forEach((error) => {
@@ -111,6 +98,7 @@ class AddClientComponent extends Component {
 
             // Muda estilos dos campos com erro
             let element = document.getElementById(error.param);
+            element.classList.remove('is-valid');
             element.classList.add('is-invalid');
           });
           content = content + '</ul>';
@@ -168,11 +156,11 @@ class AddClientComponent extends Component {
   render() {
     return (
       <Form id="submit-form" className={this.state.wasValidated?'was-validated':''} noValidate>
-        <h3 className="mb-4 mt-4">Cadastrar Novo Cliente</h3>
+        <h3 className="mb-4 mt-4">Novo Cliente</h3>
 
         {this.state.submitted ? (
           <div>
-            <h4>Cliente salvo com sucesso!</h4>
+            <h4>Cliente cadastrado com sucesso!</h4>
             <button className="btn btn-success" onClick={this.newClient}>
               Novo
             </button>
@@ -290,7 +278,7 @@ class AddClientComponent extends Component {
               </div>
 
               <button type="button" onClick={this.saveClient} className="btn btn-success" disabled={this.state.sendButtonDisabled}>
-                Salvar
+                Cadastrar
             	</button>
             </div>
           )}

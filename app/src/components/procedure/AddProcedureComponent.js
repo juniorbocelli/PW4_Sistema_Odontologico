@@ -14,14 +14,13 @@ class AddProcedureComponent extends Component {
 		super(props);
 		this.onChange = this.onChange.bind(this);
 		this.saveProcedure = this.saveProcedure.bind(this);
-		this.checkFrontendValidations = this.checkFrontendValidations.bind(this);
 		this.showModal = this.showModal.bind(this);
 		this.newProcedure = this.newProcedure.bind(this);
 
 		this.state = {
 			id: null,
 			name: "",
-			value: "",
+			price: "",
 			is_dental: false,
 
 			wasValidated: false,
@@ -35,16 +34,6 @@ class AddProcedureComponent extends Component {
 		this.setState({
 			[e.target.name]: e.target.value
 		});
-	}
-
-	checkFrontendValidations() {
-		const formElement = document.getElementById('submit-form');
-
-		// Validações no frontend
-		this.setState({ wasValidated: true });
-		if (!formElement.checkValidity()) return;
-
-		this.saveProcedure();
 	}
 
 	showModal(title, body, closeBtnTxt = "Fechar", closeBtnVisibility = true, actionBtnTxt = "Ok", actionBtnVisibility = false) {
@@ -68,7 +57,7 @@ class AddProcedureComponent extends Component {
 	saveProcedure() {
 		var data = {
 			name: this.state.name,
-			value: this.state.value,
+			price: this.state.price,
 			is_dental: this.props.is_dental === "true" ? true : false,
 		};
 
@@ -78,45 +67,44 @@ class AddProcedureComponent extends Component {
 
 		ProcedureService.create(data)
 			.then(response => {
-				console.log("Received data:", response.data);
-				console.log("Response:", response);
-
+				let fieldsList = document.querySelectorAll('#submit-form  input, #submit-form  select');
+				console.log(fieldsList)
+				fieldsList.forEach((element) => {
+				  element.classList.remove(['is-valid', 'is-invalid']);
+				  element.classList.add('is-valid');
+				});
+		
 				// Verifica se exitem erros
-				if ('errors' in response.data) {
-					let content = '<ul>';
-					let fieldsList;
-
-					this.setState({
-						wasValidated: false,
-					});
-
-					fieldsList = document.querySelectorAll('#submit-form > input.is-invalid, #submit-form > select.is-invalid, #submit-form > textarea.is-invalid');
-					fieldsList.forEach((element) => {
-						element.classList.remove('is-invalid');
-					});
-
-					response.data.errors.forEach((error) => {
-						// Adiciona erro a mensagem
-						content = content + `<li>${error.msg}</li>`;
-
-						// Muda estilos dos campos com erro
-						let element = document.getElementById(error.param);
-						element.classList.add('is-invalid');
-					});
-					content = content + '</ul>';
-
-					this.showModal("Erro", content);
-
-					this.setState({
-						sendButtonDisabled: false,
-					});
-
-					return;
+				if('errors' in response.data) {
+				  let content = '<ul>';
+		
+				  this.setState({
+					wasValidated: false,
+				  });
+		
+				  response.data.errors.forEach((error) => {
+					// Adiciona erro a mensagem
+					content = content + `<li>${error.msg}</li>`;
+		
+					// Muda estilos dos campos com erro
+					let element = document.getElementById(error.param);
+					element.classList.remove('is-valid');
+					element.classList.add('is-invalid');
+				  });
+				  content = content + '</ul>';
+		
+				  this.showModal("Erro", content);
+		
+				  this.setState({
+					sendButtonDisabled: false,
+				  });
+		
+				  return;
 				}
 
 				this.setState({
 					name: response.data.name,
-					value: response.data.value,
+					price: response.data.price,
 					is_dental: response.data.is_dental ? "true" : "false",
 
 					submitted: true
@@ -134,7 +122,7 @@ class AddProcedureComponent extends Component {
 		this.setState({
 			id: null,
 			name: "",
-			value: "",
+			price: "",
 			is_dental: false,
 
 			wasValidated: false,
@@ -147,11 +135,11 @@ class AddProcedureComponent extends Component {
 	render() {
 		return (
 			<Form id="submit-form" className={this.state.wasValidated ? 'was-validated' : ''} noValidate>
-				<h3 className="mb-4 mt-4">Cadastrar Novo Cliente</h3>
+				<h3 className="mb-4 mt-4">Novo Procedimento</h3>
 
 				{this.state.submitted ? (
 					<div>
-						<h4>Cliente salvo com sucesso!</h4>
+						<h4>Procedimento cadastrado com sucesso!</h4>
 						<button className="btn btn-success" onClick={this.newProcedure}>
 							Novo
             </button>
@@ -173,13 +161,13 @@ class AddProcedureComponent extends Component {
 								</div>
 
 								<div className="col form-group">
-									<label htmlFor="value">Preço</label>
+									<label htmlFor="price">Preço</label>
 									<NumberFormat
 										className="form-control"
-										id="value"
-										value={this.state.value}
+										id="price"
+										value={this.state.price}
 										onChange={this.onChange}
-										name="value"
+										name="price"
 										thousandSeparator="."
 										decimalSeparator=","
 										decimalScale={2}
@@ -208,8 +196,8 @@ class AddProcedureComponent extends Component {
 							</div>
 
 							<button type="button" onClick={this.saveProcedure} className="btn btn-success" disabled={this.state.sendButtonDisabled}>
-								Salvar
-              </button>
+								Cadastrar
+              				</button>
 						</div>
 					)}
 			</Form>
